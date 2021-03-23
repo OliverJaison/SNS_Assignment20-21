@@ -16,11 +16,34 @@ The csv file is taken from [https://covid.ourworldindata.org/data/owid-covid-dat
 
 Through the use of the ```Requests``` module, a function was made to download the contents csv file from the website and write them into a csv file named *positive_cases.csv*.
 ```bash
-    def update_data():
-        positive_cases_csv_URL = "https://covid.ourworldindata.org/data/owid-covid-data.csv"
-        req = requests.get(positive_cases_csv_URL)
-        URL_content = req.content
-        positive_cases_file = open("positive_cases.csv", "wb")
-        positive_cases_file.write(URL_content)
-        positive_cases_file.close()
+def update_data():
+    positive_cases_csv_URL = "https://covid.ourworldindata.org/data/owid-covid-data.csv"
+    req = requests.get(positive_cases_csv_URL)
+    URL_content = req.content
+    positive_cases_file = open("positive_cases.csv", "wb")
+    positive_cases_file.write(URL_content)
+    positive_cases_file.close()
+```
+This newly written csv file will have Covid data from all over the world. However, for the purposes of this problem, only the data from the UK is needed. Using the ```csv``` module, a function was made to remove all non-UK data from the csv file directly. This was chosen to be done over simply removing the data from the dataframe that the csv is imported into because it made debugging the dataframe and the written functions significantly easier than having to reload the csv each runtime. 
+```bash
+def filter_data(filename):
+    uk = list()
+    with open(filename, 'r') as readFile:
+        reader = csv.reader(readFile)
+        for row in reader:
+            if row[0] == "GBR" or row[0] == "iso_code":
+                uk.append(row)
+    
+    with open(filename, 'w') as writeFile:
+        writer = csv.writer(writeFile)
+        writer.writerows(uk)
+```
+Now that the csv file only had data localized to the UK, the ```Pandas``` and ```os``` modules are used to import the csv into a dataframe. After this, the first three columns are dropped because the information contained in them is a repeating entry for location and iso code. The date column is also dropped because it is not needed for the neural network input. The dates column is replaced and will be discuss later. The code also shows that a column called *tests_units* is removed. This is because every entry is just *tests_units* and these entries cannot be ennumerated. 
+```bash
+working_dir = os.getcwd()
+pos_cases_df = pd.read_csv(os.path.join(working_dir, "positive_cases.csv"))
+pos_cases_df.drop(pos_cases_df.iloc[:, 0:3], inplace = True, axis=1)
+dates = pos_cases_df["date"]
+pos_cases_df.drop(["date"], inplace = True, axis=1)
+pos_cases_df.drop(["tests_units"], inplace = True, axis=1)
 ```
