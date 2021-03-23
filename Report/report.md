@@ -47,3 +47,34 @@ dates = pos_cases_df["date"]
 pos_cases_df.drop(["date"], inplace = True, axis=1)
 pos_cases_df.drop(["tests_units"], inplace = True, axis=1)
 ```
+Now that the dataframe only has numerical strings as the data entries, the ```Numpy``` module is used to ennumerate all the entries and remove and NaN values (empty entries) as well as to remove any columns with a single repeating value. This is done because a constant value will not have an effect on the training of the neural network. Additionally the network cannot accept NaN as an input for training. This removes a great majority of the number of parameters that can be input into the neural network. 
+```bash
+def no_NaNs(df):
+    data = []
+    for column in df.columns:
+        temp = [float(i) for i in df[column]]
+        if np.isnan(np.sum(np.array(temp))):
+            df.drop([column], inplace=True, axis=1)
+``` 
+```bash
+def no_repeat(df):
+    data = []
+    for column in df.columns:
+        if df[column].nunique() == 1:
+            df.drop([column], inplace=True, axis=1)
+```
+|    |   total_cases |   new_cases |   total_cases_per_million |   new_cases_per_million |   stringency_index |
+|---:|--------------:|------------:|--------------------------:|------------------------:|-------------------:|
+|  0 |             2 |           2 |                     0.029 |                   0.029 |               8.33 |
+|  1 |             2 |           0 |                     0.029 |                   0     |               8.33 |
+|  2 |             2 |           0 |                     0.029 |                   0     |              11.11 |
+|  3 |             8 |           6 |                     0.118 |                   0.088 |              11.11 |
+|  4 |             8 |           0 |                     0.118 |                   0     |              11.11 |
+
+The table above is a representation of the dataframe so far after all the preprocessing that has been done on it. The index of the dataframe will be used to replace the dates column. It will indicate the number of days since January 31st of 2020. An extra column is also added for the sake of the neural network.
+```bash
+daysSince = []
+for i in range(len(pos_cases_df)):
+    daysSince.append(i)
+pos_cases_df["daysSince"] = daysSince
+```
