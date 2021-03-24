@@ -4,7 +4,8 @@
 ## Table of Contents
 
 - [Description](#Description)
-- [The Data](#Data)
+- [The Data](#The-Data)
+- [The Neural Network Model](#The-Neural-Network-Model)
 
 ## Description
 The problem presented is to design and build a Covid forecasting engine using a neural network. The metric to be forecasted here is the total number of positive cases recorded in the UK. That is to say, the cumulative number of cases in the UK since January 31st of 2020. The solution stated in this report involves building a deep neural network in ```Python``` using ```tensorflow``` modules and training the model using a section of the data from a regularly updated csv file. The performance of the model is then tested by inputting the previous seven days worth of data, predicting the total number of positive cases the next day and comparing the prediction with the true value taken from the csv file. 
@@ -124,3 +125,4 @@ training_features1, testing_features1 = np.split(features1, [int(0.8*len(feature
 training_labels1, testing_labels1 = np.split(labels1, [int(0.8*len(labels1))])
 ```
 
+## The Neural Network Model
