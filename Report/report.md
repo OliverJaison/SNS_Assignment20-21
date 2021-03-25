@@ -150,11 +150,11 @@ NN_model.summary()
 _________________________________________________________________
 Layer (type)                 Output Shape              Param #   
 ----------------------------------------------------------------:
-dense_1 (Dense)              (None, 128)               4608      
+dense_1 (Dense)              (None, 128)                4608      
 dense_2 (Dense)              (None, 256)               33024     
 dense_3 (Dense)              (None, 256)               65792     
 dense_4 (Dense)              (None, 256)               65792     
-dense_5 (Dense)              (None, 1)                 257       
+dense_5 (Dense)              (None, 1)                   257       
 
 Total params: 169473,
 Trainable params: 169473,
