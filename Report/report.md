@@ -176,3 +176,14 @@ acc_bar1 = np.mean(acc1)
 ```
 
 ![Error between True and Predicted Values for 1 day forecast](Error_1_day.PNG "Title")
+
+The feature and label matrices are regenerated for 2, 3, 10 and 50 day forecasts and the model is trained against each of these datasets to show the performance.
+
+|   Number of days in advance|  Average accuracy|
+|---------------------------:|-----------------:|
+|                          1 |           84.86% |
+|                          2 |           82.84% |
+|                          5 |           83.57% |
+|                         10 |           80.54% |
+|                         20 |           77.25% |
+|                         50 |           63.73% |
