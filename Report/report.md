@@ -6,6 +6,7 @@
 - [Description](#Description)
 - [The Data](#The-Data)
 - [The Neural Network Model](#The-Neural-Network-Model)
+- [The Results](#The-Results)
 
 ## Description
 The problem presented is to design and build a Covid forecasting engine using a neural network. The metric to be forecasted here is the total number of positive cases recorded in the UK. That is to say, the cumulative number of cases in the UK since January 31st of 2020. The solution stated in this report involves building a deep neural network in ```Python``` using ```tensorflow``` modules and training the model using a section of the data from a regularly updated csv file. The performance of the model is then tested by inputting the previous seven days worth of data, predicting the total number of positive cases the next day and comparing the prediction with the true value taken from the csv file. 
@@ -157,6 +158,21 @@ Total params: 169473,
 Trainable params: 169473,
 Non-trainable params: 0
 
+## The Results
 One problem that was encountered with compiling the model was that accuracy was not the best metric to use. Due to the problem being of regressive nature rather than classification, the model can make a prediction with only 0.5% error and the accuracy would still be zero because the prediction is not exactly correct. This would mean that even after training for over 500 epochs, the training and validation accuracy will remain poor. This can be seen in the following graphs:
 
 ![Training for 1 day forecast](Training_1_day.PNG "Title")
+
+One way around this was to plot the true values against the predicted values and record the percentage error and use this as relative accuracy.
+
+```bash
+x = [i for i in range(int(testing_features1[0,-1]+1), int(testing_features1[-1,-1]+2))]
+y = testing_labels1
+x_pred = testing_features1
+y_pred = NN_model.predict(x_pred)
+err1 = np.abs(y - y_pred)
+acc1 = np.ones(len(y)) - np.divide(err1, y)
+acc_bar1 = np.mean(acc1)
+```
+
+![Error between True and Predicted Values for 1 day forecast](Error_1_day.PNG "Title")
