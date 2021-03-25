@@ -128,6 +128,22 @@ training_labels1, testing_labels1 = np.split(labels1, [int(0.8*len(labels1))])
 ## The Neural Network Model
 As stated before, the chosen architecture for this project is a dense neural network model. Neural networks are commonly used for classification problems such as gender detection or symbol classification. The problem faced here is a regression problem because there are no discrete metrics being looked at, all the parameters are continuous. This means that common practices such as one hot encoding the input or output will not work here. The dense neural network architecture is the simplest by far, only using a series of dense layers for both input and hidden layers. The specific structure is shown below:
 
+```bash
+input_shape = training_features1.shape[1]
+
+NN_model = Sequential()
+# Input layer
+NN_model.add(Dense(128, input_dim=input_shape, kernel_initializer="normal", activation="relu"))
+# Hidden Layers
+NN_model.add(Dense(256, kernel_initializer="normal", activation="relu"))
+NN_model.add(Dense(256, kernel_initializer="normal", activation="relu"))
+NN_model.add(Dense(256, kernel_initializer="normal", activation="relu"))
+# Output layer 
+NN_model.add(Dense(1, kernel_initializer="normal", activation="linear"))
+
+NN_model.compile(loss="mean_absolute_error", optimizer="adam", metrics=["accuracy"])
+NN_model.summary()
+```
 _________________________________________________________________
 Layer (type)                 Output Shape              Param #   
 ----------------------------------------------------------------:
@@ -137,7 +153,10 @@ dense_3 (Dense)              (None, 256)               65792
 dense_4 (Dense)              (None, 256)               65792     
 dense_5 (Dense)              (None, 1)                 257       
 
-Total params: 169,473
-Trainable params: 169,473
+Total params: 169473,
+Trainable params: 169473,
 Non-trainable params: 0
 
+One problem that was encountered with compiling the model was that accuracy was not the best metric to use. Due to the problem being of regressive nature rather than classification, the model can make a prediction with only 0.5% error and the accuracy would still be zero because the prediction is not exactly correct. This would mean that even after training for over 500 epochs, the training and validation accuracy will remain poor. This can be seen in the following graphs:
+
+[Training for 1 day forecast](Training_1_day.PNG "Title")
