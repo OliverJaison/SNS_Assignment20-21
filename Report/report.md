@@ -159,4 +159,4 @@ Non-trainable params: 0
 
 One problem that was encountered with compiling the model was that accuracy was not the best metric to use. Due to the problem being of regressive nature rather than classification, the model can make a prediction with only 0.5% error and the accuracy would still be zero because the prediction is not exactly correct. This would mean that even after training for over 500 epochs, the training and validation accuracy will remain poor. This can be seen in the following graphs:
 
-[Training for 1 day forecast](Training_1_day.PNG "Title")
+![Training for 1 day forecast](Training_1_day.PNG "Title")
