@@ -126,3 +126,22 @@ training_labels1, testing_labels1 = np.split(labels1, [int(0.8*len(labels1))])
 ```
 
 ## The Neural Network Model
+As stated before, the chosen architecture for this project is a dense neural network model. Neural networks are commonly used for classification problems such as gender detection or symbol classification. The problem faced here is a regression problem because there are no discrete metrics being looked at, all the parameters are continuous. This means that common practices such as one hot encoding the input or output will not work here. The dense neural network architecture is the simplest by far, only using a series of dense layers for both input and hidden layers. The specific structure is shown below:
+
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+----------------------------------------------------------------:
+dense_6 (Dense)              (None, 128)               4608      
+_________________________________________________________________
+dense_7 (Dense)              (None, 256)               33024     
+_________________________________________________________________
+dense_8 (Dense)              (None, 256)               65792     
+_________________________________________________________________
+dense_9 (Dense)              (None, 256)               65792     
+_________________________________________________________________
+dense_10 (Dense)             (None, 1)                 257       
+----------------------------------------------------------------:
+Total params: 169,473
+Trainable params: 169,473
+Non-trainable params: 0
+_________________________________________________________________
